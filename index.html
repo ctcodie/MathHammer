@@ -5,7 +5,7 @@ layout: default
 <div class ="row">
 		<div class="column">
 			<p>Welcome to my 8th Edition 40k MathHammer calculator!</p>
-			<p>Just fill out the boxes below with the stats of the unit shooting, or fighting in assault, and the unit they're targeting. If a stat doesn't apply (e.g. you've clicked d6 shots, the shots field) just leave the corresponding field blank. Then click calculate to show the average wounds inflicted (including morale casualties)! </p>
+			<p>Just fill out the boxes below with the stats of the unit shooting, or fighting in assault, and the unit they're targeting, then click calculate to show the average wounds inflicted (including morale casualties)! </p>
 			<p>The calculator uses averages to give you a rough idea, but your mileage on the table top may vary.</p>
 			<p>Unfortunately you'll have to enter all the stats, but it's okay because you've got the relevant books(right?).</p>
 		</div>
@@ -18,7 +18,7 @@ layout: default
 					<label for="ballisticSkill">Firers Ballistic/Weapon Skill:</label>
 				</div>
 				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Bs/ws" step="1" min="0" max="30">
+					<input id="ballisticSkill" class="numberField" type="number" placeholder="Bs/ws" step="1" min="0" max="30" required>
 				</div>
 			</div>
 			<div class="row">
@@ -26,15 +26,15 @@ layout: default
 					<label for="weaponStrength">Weapon Strength:</label>
 				</div>
 				<div class="column">
-					<input id="weaponStrength" class="numberField" type="number" placeholder="S" step="1" min="0" max="30">
+					<input id="weaponStrength" class="numberField" type="number" placeholder="S" step="1" min="0" max="30" require>
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="weaponAP">Weapon AP (don't include the minus):</label>
+					<label for="weaponAP">Weapon AP:</label>
 				</div>
 				<div class="column">
-					<input id="weaponAP" class="numberField" type="number" placeholder="AP" step="1" min="0" max="30">
+					<input id="weaponAP" class="numberField" type="number" placeholder="AP" step="1" min="0" max="30" required>
 				</div>
 			</div>
 			<div class="row">
@@ -50,7 +50,7 @@ layout: default
 					<label for="numberOfShots">Number of Shots/Attacks:</label>
 				</div>
 				<div class="column">
-					<input id="numberOfShots" class="numberField" type="number" placeholder="Shots" step="1" min="0" max="30">
+					<input id="numberOfShots" class="numberField" type="number" placeholder="Shots" step="1" min="0" max="300" required>
 				</div>
 			</div>
 			<div class="row">
@@ -122,7 +122,7 @@ layout: default
 					<label for="toWoundMod">To Wound Modifier:</label>
 				</div>
 				<div class="column">
-					<input id="toWoundMod" class="numberField" type="number" placeholder="+/-" step="1" min="0" max="30">
+					<input id="toWoundMod" class="numberField" type="number" placeholder="+/-" step="1" min="-10" max="10">
 				</div>
 			</div>
 		</div>
@@ -133,7 +133,7 @@ layout: default
 					<label for="toughness">Toughness:</label>
 				</div>
 				<div class="column">
-					<input id="toughness" class="numberField" type="number" placeholder="T" step="1" min="0" max="30">
+					<input id="toughness" class="numberField" type="number" placeholder="T" step="1" min="0" max="30" required>
 				</div>
 			</div>
 			<div class="row">
@@ -141,7 +141,7 @@ layout: default
 					<label for="armourSave">Armour Save:</label>
 				</div>
 				<div class="column">
-					<input id="armourSave" class="numberField" type="number" placeholder="Save" step="1" min="0" max="30">
+					<input id="armourSave" class="numberField" type="number" placeholder="Save" step="1" min="-6" max="6" required>
 				</div>
 			</div>
 			<div class="row">
@@ -157,7 +157,7 @@ layout: default
 					<label for="numberOfWounds">Number of Wounds (per model):</label>
 				</div>
 				<div class="column">
-					<input id="numberOfWounds" class="numberField" type="number" placeholder="W" step="1" min="0" max="30">
+					<input id="numberOfWounds" class="numberField" type="number" placeholder="W" step="1" min="0" max="30" required>
 				</div>
 			</div>
 			<div class="row">
@@ -165,7 +165,7 @@ layout: default
 					<label for="leadership">Leadership:</label>
 				</div>
 				<div class="column">
-					<input id="leadership" class="numberField" type="number" placeholder="Ld" step="1" min="0" max="30">
+					<input id="leadership" class="numberField" type="number" placeholder="Ld" step="1" min="0" max="30" required>
 				</div>
 			</div>
 		</div>

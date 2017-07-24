@@ -15,10 +15,8 @@ $(document).ready(function() {
 		var weaponDamageD3 = false;
 		var weaponDamageD6 = false;
 		var targetWounds = 1;
-		var	armourSave = 7;
-
-		// Set to 7 for no invul save as default, so logic below operates properly
-		var	invulSave = 7;
+		var	armourSave = 0;
+		var	invulSave = 0;
 		var	armourPiercing = 3;
 		var	actualSave = 0;
 		var hits = 0;
@@ -38,81 +36,113 @@ $(document).ready(function() {
 		var assault = false;
 		var numberOfAttacks = 0;
 		var weaponSkill = 0;
-		var leadership = 6;
+		var leadership = 0;
 		var moraleCasualties = 0;
-		var positiveRegExp = /^\+?(0|[1-9]\d*)$/;
+		//potentially for validation. positive integer inc 0
+		//var positiveRegExp = /^\+?(0|[1-9]\d*)$/;
 
-		// Get Inputs
-		ballisticSkill = $('#ballisticSkill').val();
-		numberOfShots = $('#numberOfShots').val();
-		weaponStrength = $('#weaponStrength').val(); 
-		targetToughness = $('#toughness').val();
-		weaponDamage = $('#weaponDamage').val();
-		targetWounds = $('#numberOfWounds').val();
-		armourSave = $('#armourSave').val();
-		invulSave = $('#invulSave').val();
-		armourPiercing = $('#weaponAP').val(); 
-		flamer = $('#flamerYN').val();
-		smallBlast = $('#d3ShotsYN').val(); 
-		largeBlast = $('#d6ShotsYN').val();
-		weaponDamageD3 = $('#d3DamageYN').val();
-		weaponDamageD6 = $('#d3DamageYN').val();
-		hitMod = $('#toHitMod').val(); 
-		woundMod = $('#toWoundMod').val();
-		rerollWound = $('#rerollWound').val();
-		rerollHit = $('#rerollHit').val();
+		// Get Inputs. Using *1 for type coercion. Because input type number gives a string. Stupid.
+		ballisticSkill = $('#ballisticSkill').val()*1;
+		numberOfShots = $('#numberOfShots').val()*1;
+		weaponStrength = $('#weaponStrength').val()*1; 
+		targetToughness = $('#toughness').val()*1;
+		weaponDamage = $('#weaponDamage').val()*1;
+		targetWounds = $('#numberOfWounds').val()*1;
+		armourSave = $('#armourSave').val()*1;
+		invulSave = $('#invulSave').val()*1;
+		armourPiercing = $('#weaponAP').val()*1;
+		leadership = $('#leadership').val()*1;
+		if ($('#flamerYN').is(":checked"))
+			{
+  				flamer = true;
+			}else{
+				flamer = false;
+		};
+		if ($('#d3ShotsYN').is(":checked"))
+			{
+  				smallBlast = true;
+			}else{
+				smallBlast = false;
+		};
+		if ($('#d6ShotsYN').is(":checked"))
+			{
+  				largeBlast = true;
+			}else{
+				largeBlast = false;
+		};
+		if ($('#d3DamageYN').is(":checked"))
+			{
+  				weaponDamageD3 = true;
+			}else{
+				weaponDamageD3 = false;
+		};
+		if ($('#d6DamageYN').is(":checked"))
+			{
+  				weaponDamageD6 = true;
+			}else{
+				weaponDamageD6 = false;
+		};
+		hitMod = $('#toHitMod').val()*1; 
+		woundMod = $('#toWoundMod').val()*1;
+		if ($('#rerollWound').is(":checked"))
+			{
+  				rerollWound = true;
+			}else{
+				rerollWound = false;
+		};
+		if ($('#rerollHit').is(":checked"))
+			{
+  				rerollHit = true;
+			}else{
+				rerollHit = false;
+		};
 
 		// Perform initial calculations
 
-		if (assault === "on"){
+		if (assault === true){
 			ballisticSkill = weaponSkill;
 			numberOfShots = numberOfAttacks;
 		}
 
 		// Calculate actual to save roll including ap
+		// Decide whether to use armour save or invul save, whichever is better
 
+		armourPiercing = Math.abs(armourPiercing)
 		actualSave = armourSave + armourPiercing;
-
 		if (actualSave + armourPiercing >=7){
 			noSave = true;
+		} else if (actualSave > invulSave && invulSave != 0){
+			actualSave = invulSave;
 		}
 
 		// Wound ratio determines the To Wound roll
 
 		woundRatio = targetToughness / weaponStrength;
 
-		// Decide whether to use armour save or invul save, whichever is better
-
-		if (actualSave > invulSave){
-			actualSave = invulSave;
-		}
-		console.log('Actual Save = ' + actualSave);
-
 		// Sets average number of shots for d3 or d6 shot weapons. 
 
-		if (smallBlast === "on"){
+		if (smallBlast === true){
 			numberOfShots = 2;
 		}
-		if (largeBlast === "on" || flamer === "on"){
+		if (largeBlast === true || flamer === true){
 			numberOfShots = 4;
 		} 
 
 		// Sets auto hits for flamer
 
-		if (flamer === "on"){
+		if (flamer === true){
 			hitMod = 0;
 			ballisticSkill = 1;
 		}
 
 		// Sets weapon damage for d3/d6 damage stat
 
-		if (weaponDamage === 0){
-			if (weaponDamageD3 === "on"){
-				weaponDamage = 2;
-			} else if (weaponDamageD6 === "on"){
-				weaponDamage = 4;
-			}
+		if (weaponDamageD3 === true){
+			weaponDamage = 2;
+		} else if (weaponDamageD6 === true){
+			weaponDamage = 4;
 		}
+		
 
 		// Calculate the wound roll according to weapon strength and target toughness. eg. S8 wounds T4 on 2+
 
@@ -129,24 +159,22 @@ $(document).ready(function() {
 		}else{
 			console.log("Wound Roll Calculation Failure")
 		}
-		console.log('Wound Roll =' + woundRoll);
 
 		// Call functions for various scenarios
 		// This could probably be DRY-er...
 		// Order of calls and variable changes is important, rerolls happen then modifiers as per
 		// 40k 8th Ed rules. 24/07/17
 		// No rerolls or modifiers
-		if (rerollHit=="off" && rerollWound=="off" && hitMod==0 && woundMod==0){
+		if (rerollHit==false && rerollWound==false && hitMod==0 && woundMod==0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			wounds = rollToWound(woundRoll, hits);
 			unsavedWounds = rollToSave(wounds, actualSave, noSave);
 			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
 			moraleCasualties = calculateMoraleDamage(leadership, kills);
 			console.log("No reroll/mod causes " + kills + " models removed and " + moraleCasualties + " morale");
-		
 		// Reroll hit, no modifiers
 		
-		}else if(rerollHit=="on" && rerollWound=="off" && hitMod==0 && woundMod==0){
+		}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod==0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			numberOfShots -= hits;
 			hits = rollToHit(ballisticSkill, numberOfShots);
@@ -158,7 +186,7 @@ $(document).ready(function() {
 		
 		// Reroll wound, no modifiers
 		
-		}else if(rerollHit=="off" && rerollWound=="on" && hitMod==0 && woundMod==0){
+		}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod==0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			wounds = rollToWound(woundRoll, hits);
 			hits -= wounds;
@@ -170,7 +198,7 @@ $(document).ready(function() {
 		
 		// No Rerolls, to hit modifier
 		
-		}else if(rerollHit=="off" && rerollWound=="off" && hitMod!=0 && woundMod==0){
+		}else if(rerollHit==false && rerollWound==false && hitMod!=0 && woundMod==0){
 			//minus hit mod because it's a dice roll. so minus 1 to hit penalty goes from 3+ to 4+. +1 to hit
 			//goes 3+ to 2+...counter intuitive but correct. 
 			ballisticSkill -= hitMod;
@@ -185,7 +213,7 @@ $(document).ready(function() {
 		
 		// No Reroll, to wound modifier
 		
-		}else if(rerollHit=="off" && rerollWound=="off" && hitMod==0 && woundMod!=0){
+		}else if(rerollHit==false && rerollWound==false && hitMod==0 && woundMod!=0){
 			woundRoll -= woundMod;
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			console.log(hits +' hits');
@@ -198,7 +226,7 @@ $(document).ready(function() {
 		
 		// Reroll to hit and wound, no modifier
 		
-		}else if(rerollHit=="on" && rerollWound=="on" && hitMod==0 && woundMod==0){
+		}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod==0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			numberOfShots -= hits;
 			hits = rollToHit(ballisticSkill, numberOfShots);
@@ -212,7 +240,7 @@ $(document).ready(function() {
 		
 		// Reroll to wound with hit modifier
 		
-		}else if(rerollHit=="off" && rerollWound=="on" && hitMod!=0 && woundMod==0){
+		}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod==0){
 			ballisticSkill -= hitMod;
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			wounds = rollToWound(woundRoll, hits);
@@ -225,7 +253,7 @@ $(document).ready(function() {
 		
 		// Reroll to wound with wound modifier
 		
-		}else if(rerollHit=="off" && rerollWound=="on" && hitMod==0 && woundMod!=0){
+		}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod!=0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			wounds = rollToWound(woundRoll, hits);
 			woundRoll -= woundMod
@@ -238,7 +266,7 @@ $(document).ready(function() {
 		
 		// Reroll wound with to hit and wound modifiers
 		
-		}else if(rerollHit=="off" && rerollWound=="on" && hitMod!=0 && woundMod!=0){
+		}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod!=0){
 			ballisticSkill -= hitMod;
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			wounds = rollToWound(woundRoll, hits);
@@ -252,7 +280,7 @@ $(document).ready(function() {
 		
 		// Reroll hit with hit modifier
 		
-		}else if(rerollHit=="on" && rerollWound=="off" && hitMod!=0 && woundMod==0){
+		}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod==0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			numberOfShots -= hits;
 			ballisticSkill -= hitMod;
@@ -265,7 +293,7 @@ $(document).ready(function() {
 		
 		// Reroll hit with wound modifier
 		
-		}else if(rerollHit=="on" && rerollWound=="off" && hitMod==0 && woundMod!=0){
+		}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod!=0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			numberOfShots -= hits;
 			hits = rollToHit(ballisticSkill, numberOfShots);
@@ -278,7 +306,7 @@ $(document).ready(function() {
 		
 		// Reroll hit with to wound and to hit modifiers
 		
-		}else if(rerollHit=="on" && rerollWound=="off" && hitMod!=0 && woundMod!=0){
+		}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod!=0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			numberOfShots -= hits;
 			ballisticSkill -= hitMod;
@@ -292,7 +320,7 @@ $(document).ready(function() {
 		
 		// Reroll to hit and wound with hit modifier
 		
-		}else if(rerollHit=="on" && rerollWound=="on" && hitMod!=0 && woundMod==0){
+		}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod==0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			numberOfShots -= hits;
 			ballisticSkill -= hitMod;
@@ -307,7 +335,7 @@ $(document).ready(function() {
 		
 		// Reroll to hit and wound with wound modifier
 		
-		}else if(rerollHit=="on" && rerollWound=="on" && hitMod==0 && woundMod!=0){
+		}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod!=0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			numberOfShots -= hits;
 			hits = rollToHit(ballisticSkill, numberOfShots);
@@ -322,7 +350,7 @@ $(document).ready(function() {
 
 		// Reroll to hit and wound with hit and wound modifiers
 		
-		}else if(rerollHit=="on" && rerollWound=="on" && hitMod!=0 && woundMod!=0){
+		}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod!=0){
 			hits = rollToHit(ballisticSkill, numberOfShots);
 			ballisticSkill -= hitMod;
 			numberOfShots -= hits;
@@ -341,7 +369,7 @@ $(document).ready(function() {
 
 		// Put outputs into page
 
-		$('#resultsYo').html("Kills: " + kills + ", Morale Casualties: " + moraleCasualties);
+		$('#resultsYo').html(unsavedWounds + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
 
 		// Functions for rolls
 
@@ -362,12 +390,11 @@ $(document).ready(function() {
 		}
 
 		function calculateKills(unsavedWounds, weaponDamage,targetWounds){
-			if (weaponDamage < targetWounds){
-				kills = (unsavedWounds * weaponDamage) % targetWounds;
+			if (targetWounds < weaponDamage){
+				return kills = Math.floor(((unsavedWounds * weaponDamage) / targetWounds));
 			} else {
-				kills = Math.floor(unsavedWounds);
+				return kills = Math.floor(unsavedWounds);
 			}
-			return kills;
 		}
 
 		function calculateMoraleDamage(leadership, kills){
