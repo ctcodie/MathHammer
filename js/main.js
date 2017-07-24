@@ -3,35 +3,43 @@ $(document).ready(function() {
 	// Declare variables
 
 	var ballisticSkill = 4;
-	var	numberOfShots = 10;
-	var	weaponStrength = 4;
+	var	numberOfShots = 8;
+	var	weaponStrength = 8;
 	var	targetToughness = 4;
-	var	weaponDamage = 0;
+	var	weaponDamage = 1;
+	var weaponDamageD3 = false;
+	var weaponDamageD6 = false;
+	var targetWounds = 1;
 	var	armourSave = 4;
 	// Set to 7 for no invul save as default, so logic below operates properly
 	var	invulSave = 7;
-	var	armourPiercing = 0;
+	var	armourPiercing = 3;
 	var	actualSave = 0;
 	var hits = 0;
 	var wounds = 0;
 	var unsavedWounds = 0;
-	var flamer = 0;
-	var smallBlast = 0;
-	var largeBlast = 0;
+	var flamer = false;
+	var smallBlast = false;
+	var largeBlast = false;
 	var rerollHit = false;
 	var rerollWound = false;
 	var hitMod = 0;
 	var woundMod = 0;
 	var woundRoll = 0;
 	var woundRatio = 0;
+	var kills = 0;
+	var noSave = false;
 
 	// Get Inputs
 
 
 
 	// Perform initial calculations
+	actualSave = armourSave + armourPiercing;
 
-	actualSave = armourSave - armourPiercing;
+	if (actualSave + armourPiercing >=7){
+		noSave = true;
+	}
 
 	woundRatio = targetToughness / weaponStrength;
 
@@ -42,18 +50,27 @@ $(document).ready(function() {
 
 	// Sets average number of shots for d3 or d6 shot weapons. 
 
-	if (smallBlast != 0){
+	if (smallBlast === true){
 		numberOfShots = 2;
 	}
-	if (largeBlast != 0 || flamer != 0){
+	if (largeBlast === true || flamer === true){
 		numberOfShots = 4;
 	} 
 
 	// Sets auto hits for flamer
 
-	if (flamer != 0){
+	if (flamer === true){
 		hitMod = 0;
 		ballisticSkill = 1;
+	}
+
+	// Sets weapon damage for d3/d6 damage stat
+	if (weaponDamage === 0){
+		if (weaponDamageD3 === true){
+			weaponDamage = 2;
+		} else {
+			weaponDamage = 4;
+		}
 	}
 
 	// Calculate the wound roll according to weapon strength and target toughness. eg. S8 wounds T4 on 2+
@@ -81,8 +98,9 @@ $(document).ready(function() {
 	if (rerollHit==false && rerollWound==false && hitMod==0 && woundMod==0){
 		hits = rollToHit(ballisticSkill, numberOfShots);
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("No reroll/mod causes " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("No reroll/mod causes " + kills + " models removed");
 	
 	// Reroll hit, no modifiers
 	
@@ -91,8 +109,9 @@ $(document).ready(function() {
 		numberOfShots -= hits;
 		hits = rollToHit(ballisticSkill, numberOfShots);
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit " + kills + " models removed");
 	
 	// Reroll wound, no modifiers
 	
@@ -101,8 +120,9 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll wound " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll wound " + kills + " models removed");
 	
 	// No Rerolls, to hit modifier
 	
@@ -114,8 +134,9 @@ $(document).ready(function() {
 		console.log(hits +' hits');
 		wounds = rollToWound(woundRoll, hits);
 		console.log(wounds +' wounds');
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Mod to hit " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Mod to hit " + kills + " models removed");
 	
 	// No Reroll, to wound modifier
 	
@@ -125,8 +146,9 @@ $(document).ready(function() {
 		console.log(hits +' hits');
 		wounds = rollToWound(woundRoll, hits);
 		console.log(wounds +' wounds');
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Mod to hit " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Mod to hit " + kills + " models removed");
 	
 	// Reroll to hit and wound, no modifier
 	
@@ -137,8 +159,9 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit and wound " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit and wound " + kills + " models removed");
 	
 	// Reroll to wound with hit modifier
 	
@@ -148,8 +171,9 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll wound and hit mod " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll wound and hit mod " + kills + " models removed");
 	
 	// Reroll to wound with wound modifier
 	
@@ -159,8 +183,9 @@ $(document).ready(function() {
 		woundRoll -= woundMod
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll wound and wound mod " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll wound and wound mod " + kills + " models removed");
 	
 	// Reroll wound with to hit and wound modifiers
 	
@@ -171,8 +196,9 @@ $(document).ready(function() {
 		woundRoll -= woundMod;
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll wound and wound mod " + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll wound and wound mod " + kills + " models removed");
 	
 	// Reroll hit with hit modifier
 	
@@ -182,8 +208,9 @@ $(document).ready(function() {
 		ballisticSkill -= hitMod;
 		hits = rollToHit(ballisticSkill, numberOfShots);
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit and hit mod" + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit and hit mod " + kills + " models removed");
 	
 	// Reroll hit with wound modifier
 	
@@ -193,8 +220,9 @@ $(document).ready(function() {
 		hits = rollToHit(ballisticSkill, numberOfShots);
 		woundRoll -= woundMod;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit wound mod" + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit wound mod " + kills + " models removed");
 	
 	// Reroll hit with to wound and to hit modifiers
 	
@@ -205,8 +233,9 @@ $(document).ready(function() {
 		hits = rollToHit(ballisticSkill, numberOfShots);
 		woundRoll -= woundMod;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit and both mod" + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit and both mod " + kills + " models removed");
 	
 	// Reroll to hit and wound with hit modifier
 	
@@ -218,8 +247,9 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit and wound with hit mod" + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit and wound with hit mod " + kills + " models removed");
 	
 	// Reroll to hit and wound with wound modifier
 	
@@ -231,8 +261,9 @@ $(document).ready(function() {
 		woundRoll -= woundMod;
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit and wound with wound mod" + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit and wound with wound mod " + kills + " models removed");
 
 	// Reroll to hit and wound with hit and wound modifiers
 	
@@ -245,11 +276,14 @@ $(document).ready(function() {
 		woundRoll -= woundMod;
 		hits -= wounds;
 		wounds = rollToWound(woundRoll, hits);
-		unsavedWounds = rollToSave(wounds, actualSave);
-		console.log("Reroll hit and wound with both mod" + unsavedWounds + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave, noSave);
+		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		console.log("Reroll hit and wound with both mod " + kills + " models removed");
 	}else{
 		console.log("Oh No! Something broke in the ifs");
 	}
+
+	// Put outputs into page
 
 	// Functions for rolls
 
@@ -261,7 +295,20 @@ $(document).ready(function() {
 		return wounds += (hits * (7 - woundRoll))/6;
 	}
 
-	function rollToSave(wounds,actualSave){
-		return unsavedWounds = (wounds * (7 - actualSave))/6;
+	function rollToSave(wounds,actualSave,noSave){
+		if (noSave === true){
+			return unsavedWounds = wounds;
+		} else {
+			return unsavedWounds = (wounds * (7 - actualSave))/6;
+		}
+	}
+
+	function calculateKills(unsavedWounds, weaponDamage,targetWounds){
+		if (weaponDamage < targetWounds){
+			kills = (unsavedWounds * weaponDamage) % targetWounds;
+		} else {
+			kills = Math.floor(unsavedWounds);
+		}
+		return kills
 	}
 });
