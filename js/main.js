@@ -14,7 +14,7 @@ $(document).ready(function() {
 	var	actualSave = 0;
 	var hits = 0;
 	var wounds = 0;
-	var kills = 0;
+	var unsavedWounds = 0;
 	var flamer = 0;
 	var smallBlast = 0;
 	var largeBlast = 0;
@@ -79,30 +79,30 @@ $(document).ready(function() {
 	// 40k 8th Ed rules. 24/07/17
 	// No rerolls or modifiers
 	if (rerollHit==false && rerollWound==false && hitMod==0 && woundMod==0){
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("No reroll/mod causes " + kills + " unsaved wounds");
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("No reroll/mod causes " + unsavedWounds + " unsaved wounds");
 	
 	// Reroll hit, no modifiers
 	
 	}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod==0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		numberOfShots -= hits;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit " + kills + " unsaved wounds");
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit " + unsavedWounds + " unsaved wounds");
 	
 	// Reroll wound, no modifiers
 	
 	}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod==0){
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll wound " + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll wound " + unsavedWounds + " unsaved wounds");
 	
 	// No Rerolls, to hit modifier
 	
@@ -110,158 +110,158 @@ $(document).ready(function() {
 		//minus hit mod because it's a dice roll. so minus 1 to hit penalty goes from 3+ to 4+. +1 to hit
 		//goes 3+ to 2+...counter intuitive but correct. 
 		ballisticSkill -= hitMod;
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		console.log(hits +' hits');
-		wounds = toWound(woundRoll, hits);
+		wounds = rollToWound(woundRoll, hits);
 		console.log(wounds +' wounds');
-		kills = toKill(wounds, actualSave);
-		console.log("Mod to hit " + kills + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Mod to hit " + unsavedWounds + " unsaved wounds");
 	
 	// No Reroll, to wound modifier
 	
 	}else if(rerollHit==false && rerollWound==false && hitMod==0 && woundMod!=0){
 		woundRoll -= woundMod;
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		console.log(hits +' hits');
-		wounds = toWound(woundRoll, hits);
+		wounds = rollToWound(woundRoll, hits);
 		console.log(wounds +' wounds');
-		kills = toKill(wounds, actualSave);
-		console.log("Mod to hit " + kills + " unsaved wounds");
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Mod to hit " + unsavedWounds + " unsaved wounds");
 	
 	// Reroll to hit and wound, no modifier
 	
 	}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod==0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		numberOfShots -= hits;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit and wound " + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit and wound " + unsavedWounds + " unsaved wounds");
 	
 	// Reroll to wound with hit modifier
 	
 	}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod==0){
 		ballisticSkill -= hitMod;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll wound and hit mod " + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll wound and hit mod " + unsavedWounds + " unsaved wounds");
 	
 	// Reroll to wound with wound modifier
 	
 	}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod!=0){
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		woundRoll -= woundMod
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll wound and wound mod " + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll wound and wound mod " + unsavedWounds + " unsaved wounds");
 	
 	// Reroll wound with to hit and wound modifiers
 	
 	}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod!=0){
 		ballisticSkill -= hitMod;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		woundRoll -= woundMod;
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll wound and wound mod " + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll wound and wound mod " + unsavedWounds + " unsaved wounds");
 	
 	// Reroll hit with hit modifier
 	
 	}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod==0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		numberOfShots -= hits;
 		ballisticSkill -= hitMod;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit and hit mod" + kills + " unsaved wounds");
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit and hit mod" + unsavedWounds + " unsaved wounds");
 	
 	// Reroll hit with wound modifier
 	
 	}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod!=0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		numberOfShots -= hits;
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		woundRoll -= woundMod;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit wound mod" + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit wound mod" + unsavedWounds + " unsaved wounds");
 	
 	// Reroll hit with to wound and to hit modifiers
 	
 	}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod!=0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		numberOfShots -= hits;
 		ballisticSkill -= hitMod;
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		woundRoll -= woundMod;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit and both mod" + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit and both mod" + unsavedWounds + " unsaved wounds");
 	
 	// Reroll to hit and wound with hit modifier
 	
 	}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod==0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		numberOfShots -= hits;
 		ballisticSkill -= hitMod;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit and wound with hit mod" + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit and wound with hit mod" + unsavedWounds + " unsaved wounds");
 	
 	// Reroll to hit and wound with wound modifier
 	
 	}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod!=0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		numberOfShots -= hits;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		woundRoll -= woundMod;
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit and wound with wound mod" + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit and wound with wound mod" + unsavedWounds + " unsaved wounds");
 
 	// Reroll to hit and wound with hit and wound modifiers
 	
 	}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod!=0){
-		hits = toHit(ballisticSkill, numberOfShots);
+		hits = rollToHit(ballisticSkill, numberOfShots);
 		ballisticSkill -= hitMod;
 		numberOfShots -= hits;
-		hits = toHit(ballisticSkill, numberOfShots);
-		wounds = toWound(woundRoll, hits);
+		hits = rollToHit(ballisticSkill, numberOfShots);
+		wounds = rollToWound(woundRoll, hits);
 		woundRoll -= woundMod;
 		hits -= wounds;
-		wounds = toWound(woundRoll, hits);
-		kills = toKill(wounds, actualSave);
-		console.log("Reroll hit and wound with both mod" + kills + " unsaved wounds");
+		wounds = rollToWound(woundRoll, hits);
+		unsavedWounds = rollToSave(wounds, actualSave);
+		console.log("Reroll hit and wound with both mod" + unsavedWounds + " unsaved wounds");
 	}else{
 		console.log("Oh No! Something broke in the ifs");
 	}
 
 	// Functions for rolls
 
-	function toHit(ballisticSkill, numberOfShots){
+	function rollToHit(ballisticSkill, numberOfShots){
 		return hits += (numberOfShots * (7 - ballisticSkill))/6;
 	}
 
-	function toWound(woundRoll,hits){
+	function rollToWound(woundRoll,hits){
 		return wounds += (hits * (7 - woundRoll))/6;
 	}
 
-	function toKill(wounds,actualSave){
-		return kills = (wounds * (7 - actualSave))/6;
+	function rollToSave(wounds,actualSave){
+		return unsavedWounds = (wounds * (7 - actualSave))/6;
 	}
 });
