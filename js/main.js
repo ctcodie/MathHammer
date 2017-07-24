@@ -369,7 +369,8 @@ $(document).ready(function() {
 
 		// Put outputs into page
 
-		$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
+		//$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
+		$('#resultsYo').html(kills + " models removed, Morale Casualties: " + moraleCasualties);
 
 		// Functions for rolls
 
@@ -390,7 +391,7 @@ $(document).ready(function() {
 		}
 
 		function calculateKills(unsavedWounds, weaponDamage,targetWounds){
-			if (targetWounds < weaponDamage){
+			if (targetWounds >= weaponDamage){
 				return kills = Math.floor(((unsavedWounds * weaponDamage) / targetWounds));
 			} else {
 				return kills = Math.floor(unsavedWounds);
