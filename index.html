@@ -93,6 +93,38 @@ layout: default
 					<input id="d3DamageYN" type="checkbox">
 				</div>
 			</div>
+			<div class="row">
+				<div class="column">
+					<label for="rerollHit">Re-roll To Hit</label>
+				</div>
+				<div class="column">
+					<input id="rerollHit" type="checkbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="rerollWound">Re-roll To Wound</label>
+				</div>
+				<div class="column">
+					<input id="rerollWound" type="checkbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="toHitMod">To Hit Modifier</label>
+				</div>
+				<div class="column">
+					<input id="toHitMod" class="numberField" type="number" placeholder="+/-" step="1" min="-10" max="10">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="toWoundMod">To Wound Modifier:</label>
+				</div>
+				<div class="column">
+					<input id="toWoundMod" class="numberField" type="number" placeholder="+/-" step="1" min="0" max="30">
+				</div>
+			</div>
 		</div>
 		<div class="column">
 			<h1>Target Model</h1>
@@ -130,17 +162,22 @@ layout: default
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="leadsership">Leadership:</label>
+					<label for="leadership">Leadership:</label>
 				</div>
 				<div class="column">
-					<input id="leadsership" class="numberField" type="number" placeholder="Ld" step="1" min="0" max="30">
+					<input id="leadership" class="numberField" type="number" placeholder="Ld" step="1" min="0" max="30">
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="column centrediv">
-			<input type="button" value="Calculate" class="buttonGo">
+			<input type="button" value="Calculate" id="buttonGo">
+		</div>
+	</div>
+	<div class="row">
+		<div class="column centrediv">
+			<h3 id="resultsYo"></h3>
 		</div>
 	</div>
 </div>
