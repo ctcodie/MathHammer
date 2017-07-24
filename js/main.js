@@ -2,15 +2,16 @@ $(document).ready(function() {
 
 	// Declare variables
 
-	var ballisticSkill = 4;
-	var	numberOfShots = 8;
-	var	weaponStrength = 8;
-	var	targetToughness = 4;
+	var ballisticSkill = 0;
+	var	numberOfShots = 0;
+	var	weaponStrength = 0;
+	var	targetToughness = 0;
 	var	weaponDamage = 1;
 	var weaponDamageD3 = false;
 	var weaponDamageD6 = false;
 	var targetWounds = 1;
-	var	armourSave = 4;
+	var	armourSave = 7;
+
 	// Set to 7 for no invul save as default, so logic below operates properly
 	var	invulSave = 7;
 	var	armourPiercing = 3;
@@ -37,14 +38,16 @@ $(document).ready(function() {
 
 	// Get Inputs
 
-
+	
 
 	// Perform initial calculations
-
+	
 	if (assault === true){
 		ballisticSkill = weaponSkill;
 		numberOfShots = numberOfAttacks;
 	}
+
+	// Calculate actual to save roll including ap
 
 	actualSave = armourSave + armourPiercing;
 
@@ -52,7 +55,11 @@ $(document).ready(function() {
 		noSave = true;
 	}
 
+	// Wound ratio determines the To Wound roll
+
 	woundRatio = targetToughness / weaponStrength;
+
+	// Decide whether to use armour save or invul save, whichever is better
 
 	if (actualSave > invulSave){
 		actualSave = invulSave;
@@ -76,6 +83,7 @@ $(document).ready(function() {
 	}
 
 	// Sets weapon damage for d3/d6 damage stat
+
 	if (weaponDamage === 0){
 		if (weaponDamageD3 === true){
 			weaponDamage = 2;
