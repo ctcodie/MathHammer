@@ -369,7 +369,7 @@ $(document).ready(function() {
 
 		// Put outputs into page
 
-		$('#resultsYo').html(unsavedWounds + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
+		$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
 
 		// Functions for rolls
 
