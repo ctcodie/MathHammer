@@ -29,7 +29,7 @@ include: ['_pages']
 markdown: kramdown
 input: GFM
 theme: minima
-plugins:
+plugins_dir:
   - jekyll-feed
 
 # Exclude from processing.

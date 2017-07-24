@@ -1,0 +1,44 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex-basis: 100%;
+}
+
+@media screen and (min-width: 800px) {
+  .column {
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  ._25 {
+    flex: 2.5;
+  }
+  ._55 {
+    flex: 5.5;
+  }
+  ._20 {
+    flex: 2;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.imgcontainer {
+  width: 90%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.imgcontainer img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
