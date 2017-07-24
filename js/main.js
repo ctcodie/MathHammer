@@ -32,6 +32,8 @@ $(document).ready(function() {
 	var assault = false;
 	var numberOfAttacks = 0;
 	var weaponSkill = 0;
+	var leadership = 6;
+	var moraleCasualties = 0;
 
 	// Get Inputs
 
@@ -109,7 +111,8 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-		console.log("No reroll/mod causes " + kills + " models removed");
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
+		console.log("No reroll/mod causes " + kills + " models removed and " + moraleCasualties + " morale");
 	
 	// Reroll hit, no modifiers
 	
@@ -120,6 +123,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit " + kills + " models removed");
 	
 	// Reroll wound, no modifiers
@@ -131,6 +135,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll wound " + kills + " models removed");
 	
 	// No Rerolls, to hit modifier
@@ -145,6 +150,7 @@ $(document).ready(function() {
 		console.log(wounds +' wounds');
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Mod to hit " + kills + " models removed");
 	
 	// No Reroll, to wound modifier
@@ -157,6 +163,7 @@ $(document).ready(function() {
 		console.log(wounds +' wounds');
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Mod to hit " + kills + " models removed");
 	
 	// Reroll to hit and wound, no modifier
@@ -170,6 +177,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit and wound " + kills + " models removed");
 	
 	// Reroll to wound with hit modifier
@@ -182,6 +190,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll wound and hit mod " + kills + " models removed");
 	
 	// Reroll to wound with wound modifier
@@ -194,6 +203,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll wound and wound mod " + kills + " models removed");
 	
 	// Reroll wound with to hit and wound modifiers
@@ -207,6 +217,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll wound and wound mod " + kills + " models removed");
 	
 	// Reroll hit with hit modifier
@@ -219,6 +230,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit and hit mod " + kills + " models removed");
 	
 	// Reroll hit with wound modifier
@@ -231,6 +243,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit wound mod " + kills + " models removed");
 	
 	// Reroll hit with to wound and to hit modifiers
@@ -244,6 +257,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit and both mod " + kills + " models removed");
 	
 	// Reroll to hit and wound with hit modifier
@@ -258,6 +272,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit and wound with hit mod " + kills + " models removed");
 	
 	// Reroll to hit and wound with wound modifier
@@ -272,6 +287,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit and wound with wound mod " + kills + " models removed");
 
 	// Reroll to hit and wound with hit and wound modifiers
@@ -287,6 +303,7 @@ $(document).ready(function() {
 		wounds = rollToWound(woundRoll, hits);
 		unsavedWounds = rollToSave(wounds, actualSave, noSave);
 		kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+		moraleCasualties = calculateMoraleDamage(leadership, kills);
 		console.log("Reroll hit and wound with both mod " + kills + " models removed");
 	}else{
 		console.log("Oh No! Something broke in the ifs");
@@ -319,5 +336,14 @@ $(document).ready(function() {
 			kills = Math.floor(unsavedWounds);
 		}
 		return kills
+	}
+
+	function calculateMoraleDamage(leadership, kills){
+		moraleCasualties = leadership - kills - 4;
+		if (moraleCasualties < 0){
+			return moraleCasualties *= -1;
+		}else{
+			return moraleCasualties = 0;
+		}
 	}
 });
