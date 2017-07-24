@@ -29,12 +29,21 @@ $(document).ready(function() {
 	var woundRatio = 0;
 	var kills = 0;
 	var noSave = false;
+	var assault = false;
+	var numberOfAttacks = 0;
+	var weaponSkill = 0;
 
 	// Get Inputs
 
 
 
 	// Perform initial calculations
+
+	if (assault === true){
+		ballisticSkill = weaponSkill;
+		numberOfShots = numberOfAttacks;
+	}
+
 	actualSave = armourSave + armourPiercing;
 
 	if (actualSave + armourPiercing >=7){
