@@ -35,13 +35,14 @@ $(document).ready(function() {
 	var weaponSkill = 0;
 	var leadership = 6;
 	var moraleCasualties = 0;
+	var positiveRegExp = /^\+?(0|[1-9]\d*)$/;
 
 	// Get Inputs
 
-	
+
 
 	// Perform initial calculations
-	
+
 	if (assault === true){
 		ballisticSkill = weaponSkill;
 		numberOfShots = numberOfAttacks;
@@ -343,10 +344,11 @@ $(document).ready(function() {
 		} else {
 			kills = Math.floor(unsavedWounds);
 		}
-		return kills
+		return kills;
 	}
 
 	function calculateMoraleDamage(leadership, kills){
+		// The 4 is the average dice roll on a d6
 		moraleCasualties = leadership - kills - 4;
 		if (moraleCasualties < 0){
 			return moraleCasualties *= -1;
