@@ -20,3 +20,14 @@ $header:  #1D1425;
 .numberField{
     min-width: 100px;
 }
+
+.buttonGo{
+    width:150px;
+    height:2em;
+    border-radius:10px;
+    font-size:1.1em;
+    background-color:$main;
+}
+.buttonGo:focus, input:focus{
+    outline: none;
+}

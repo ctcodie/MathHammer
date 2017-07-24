@@ -2,6 +2,14 @@
 layout: default
 ---
 <div class="container">	
+<div class ="row">
+		<div class="column">
+			<p>Welcome to my 8th Edition 40k MathHammer calculator!</p>
+			<p>Just fill out the boxes below with the stats of the unit shooting, or fighting in assault, and the unit they're targeting. If a stat doesn't apply (e.g. you've clicked d6 shots, the shots field) just leave the corresponding field blank. Then click calculate to show the average wounds inflicted (including morale casualties)! </p>
+			<p>The calculator uses averages to give you a rough idea, but your mileage on the table top may vary.</p>
+			<p>Unfortunately you'll have to enter all the stats, but it's okay because you've got the relevant books(right?).</p>
+		</div>
+	</div>
 	<div class="row">
 		<div class="column">
 			<h1>Firing Model</h1>
@@ -10,79 +18,79 @@ layout: default
 					<label for="ballisticSkill">Firers Ballistic/Weapon Skill:</label>
 				</div>
 				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
+					<input id="ballisticSkill" class="numberField" type="number" placeholder="Bs/ws" step="1" min="0" max="30">
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="ballisticSkill">Weapon Strength:</label>
+					<label for="weaponStrength">Weapon Strength:</label>
 				</div>
 				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="ballisticSkill">Weapon AP (don't include the minus):</label>
-				</div>
-				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
+					<input id="weaponStrength" class="numberField" type="number" placeholder="S" step="1" min="0" max="30">
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="ballisticSkill">Weapon Damage:</label>
+					<label for="weaponAP">Weapon AP (don't include the minus):</label>
 				</div>
 				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="ballisticSkill">Number of Shots/Attacks:</label>
-				</div>
-				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
+					<input id="weaponAP" class="numberField" type="number" placeholder="AP" step="1" min="0" max="30">
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="id">Flamer</label>
+					<label for="weaponDamage">Weapon Damage:</label>
 				</div>
 				<div class="column">
-					<input id="id" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="id">d6 Shots</label>
-				</div>
-				<div class="column">
-					<input id="id" type="checkbox">
+					<input id="weaponDamage" class="numberField" type="number" placeholder="D" step="1" min="0" max="30">
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="id">d3 Shots</label>
+					<label for="numberOfShots">Number of Shots/Attacks:</label>
 				</div>
 				<div class="column">
-					<input id="id" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="id">d6 Damage</label>
-				</div>
-				<div class="column">
-					<input id="id" type="checkbox">
+					<input id="numberOfShots" class="numberField" type="number" placeholder="Shots" step="1" min="0" max="30">
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="id">d3 Damage</label>
+					<label for="flamerYN">Flamer</label>
 				</div>
 				<div class="column">
-					<input id="id" type="checkbox">
+					<input id="flamerYN" type="checkbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="d6ShotsYN">d6 Shots</label>
+				</div>
+				<div class="column">
+					<input id="d6ShotsYN" type="checkbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="d3ShotsYN">d3 Shots</label>
+				</div>
+				<div class="column">
+					<input id="d3ShotsYN" type="checkbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="d6DamageYN">d6 Damage</label>
+				</div>
+				<div class="column">
+					<input id="d6DamageYN" type="checkbox">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="d3DamageYN">d3 Damage</label>
+				</div>
+				<div class="column">
+					<input id="d3DamageYN" type="checkbox">
 				</div>
 			</div>
 		</div>
@@ -90,41 +98,49 @@ layout: default
 			<h1>Target Model</h1>
 			<div class="row">
 				<div class="column">
-					<label for="ballisticSkill">Toughness:</label>
+					<label for="toughness">Toughness:</label>
 				</div>
 				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="ballisticSkill">Armour Save:</label>
-				</div>
-				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
+					<input id="toughness" class="numberField" type="number" placeholder="T" step="1" min="0" max="30">
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="ballisticSkill">Number of Wounds (per model):</label>
+					<label for="armourSave">Armour Save:</label>
 				</div>
 				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
+					<input id="armourSave" class="numberField" type="number" placeholder="Save" step="1" min="0" max="30">
 				</div>
 			</div>
 			<div class="row">
 				<div class="column">
-					<label for="ballisticSkill">Leadership:</label>
+					<label for="invulSave">Invulnerable Save:</label>
 				</div>
 				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Between 0 and 30" step="1" min="0" max="30">
+					<input id="invulSave" class="numberField" type="number" placeholder="Invul" step="1" min="0" max="30">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="numberOfWounds">Number of Wounds (per model):</label>
+				</div>
+				<div class="column">
+					<input id="numberOfWounds" class="numberField" type="number" placeholder="W" step="1" min="0" max="30">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<label for="leadsership">Leadership:</label>
+				</div>
+				<div class="column">
+					<input id="leadsership" class="numberField" type="number" placeholder="Ld" step="1" min="0" max="30">
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="column centrediv">
-			<input type="button" value="Calculate">
+			<input type="button" value="Calculate" class="buttonGo">
 		</div>
 	</div>
 </div>

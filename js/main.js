@@ -38,7 +38,7 @@ $(document).ready(function() {
 	var positiveRegExp = /^\+?(0|[1-9]\d*)$/;
 
 	// Get Inputs
-
+	// Sanitise here. EG if the user selects the d6 shots textbox, shots should be overridden.
 
 
 	// Perform initial calculations
