@@ -109,16 +109,13 @@ $(document).ready(function() {
 
 		armourPiercing = Math.abs(armourPiercing)
 		actualSave = armourSave + armourPiercing;
-		console.log("initial save: " + armourSave);
-		console.log("AP: " + armourPiercing);
-		console.log("actual save: " + actualSave);
+
 		if (actualSave + armourPiercing >=7){
 			noSave = true;
 		} else if ( invulSave != 0 && actualSave > invulSave){
 			actualSave = invulSave;
 		}
-		console.log("actual save or invul: " + actualSave);
-		console.log("No Save switch: " + noSave);
+
 		// Wound ratio determines the To Wound roll
 
 		woundRatio = targetToughness / weaponStrength;
@@ -374,7 +371,7 @@ $(document).ready(function() {
 		// Put outputs into page
 
 		//$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
-		$('#resultsYo').html(unsavedWounds + " wounds " +kills + " models removed, Morale Casualties: " + moraleCasualties);
+		$('#resultsYo').html(unsavedWounds + " unsaved wounds, dealing "+weaponDamage+" damage each. " +kills + " models removed, Morale Casualties: " + moraleCasualties);
 
 		// Functions for rolls
 
@@ -398,8 +395,22 @@ $(document).ready(function() {
 		}
 
 		function calculateKills(unsavedWounds, weaponDamage,targetWounds){
-			if (targetWounds >= weaponDamage){
+			var dealtWounds = 0;
+			if (targetWounds == weaponDamage){
+				return kills = Math.floor(unsavedWounds);
+				//return kills = Math.floor(((unsavedWounds * weaponDamage) / targetWounds));
+			} else if (targetWounds % weaponDamage == 0 && targetWounds > weaponDamage){
 				return kills = Math.floor(((unsavedWounds * weaponDamage) / targetWounds));
+			} else if (targetWounds % weaponDamage != 0 && targetWounds > weaponDamage){
+				while(unsavedWounds>0){
+					unsavedWounds--;
+					dealtWounds += weaponDamage;
+					if (dealtWounds >= targetWounds){
+						kills++;
+						dealtWounds = 0;
+					}
+				}
+				return kills;
 			} else {
 				return kills = Math.floor(unsavedWounds);
 			}
