@@ -398,10 +398,13 @@ $(document).ready(function() {
 			var dealtWounds = 0;
 			if (targetWounds == weaponDamage){
 				return kills = Math.floor(unsavedWounds);
-				//return kills = Math.floor(((unsavedWounds * weaponDamage) / targetWounds));
+				// return kills = Math.floor(((unsavedWounds * weaponDamage) / targetWounds));
 			} else if (targetWounds % weaponDamage == 0 && targetWounds > weaponDamage){
 				return kills = Math.floor(((unsavedWounds * weaponDamage) / targetWounds));
 			} else if (targetWounds % weaponDamage != 0 && targetWounds > weaponDamage){
+				// assigns wounds removing whole models where possible, doesn't overflow extra wounds
+				// as per 8th ed rules. Eg. 6 damage weapon with one shot only kills one dude with less
+				// than 6 wounds.
 				while(unsavedWounds>0){
 					unsavedWounds--;
 					dealtWounds += weaponDamage;
