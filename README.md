@@ -11,7 +11,6 @@
 * Need to do a lot of testing of rolls
 * SEO and Google Analytics once it's hosted properly
 * Contact me email address to add
-* Wounds are a bit iffy still?
 
 
 # Done
@@ -34,4 +33,4 @@
 	* Actual Save > 6
 	* Actual Save < 6
 	Believe they are all functioning correctly
-	
+* Fixed issue with unsaved wounds. Didn't realise was returning successful saves instead of fails...

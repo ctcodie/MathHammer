@@ -390,7 +390,10 @@ $(document).ready(function() {
 			if (noSave === true){
 				return unsavedWounds = wounds;
 			} else {
-				return unsavedWounds = (wounds * (7 - actualSave))/6;
+				// have to roll under to fail and die, so...
+				// (wounds*(7-actualsave))/6 is actually calculating successful saves!
+				// wounds - savedWounds is unsaved wounds. 
+				return unsavedWounds = wounds - (wounds * (7 - actualSave))/6;
 			}
 		}
 
