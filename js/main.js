@@ -109,12 +109,16 @@ $(document).ready(function() {
 
 		armourPiercing = Math.abs(armourPiercing)
 		actualSave = armourSave + armourPiercing;
+		console.log("initial save: " + armourSave);
+		console.log("AP: " + armourPiercing);
+		console.log("actual save: " + actualSave);
 		if (actualSave + armourPiercing >=7){
 			noSave = true;
-		} else if (actualSave > invulSave && invulSave != 0){
+		} else if ( invulSave != 0 && actualSave > invulSave){
 			actualSave = invulSave;
 		}
-
+		console.log("actual save or invul: " + actualSave);
+		console.log("No Save switch: " + noSave);
 		// Wound ratio determines the To Wound roll
 
 		woundRatio = targetToughness / weaponStrength;
@@ -370,7 +374,7 @@ $(document).ready(function() {
 		// Put outputs into page
 
 		//$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
-		$('#resultsYo').html(kills + " models removed, Morale Casualties: " + moraleCasualties);
+		$('#resultsYo').html(unsavedWounds + " wounds " +kills + " models removed, Morale Casualties: " + moraleCasualties);
 
 		// Functions for rolls
 

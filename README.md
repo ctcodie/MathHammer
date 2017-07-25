@@ -11,7 +11,8 @@
 * Need to do a lot of testing of rolls
 * SEO and Google Analytics once it's hosted properly
 * Contact me email address to add
-* To make it easier to tab through, put the checkboxes and lesser options on new row
+* Wounds are a bit iffy still?
+
 
 # Done
 * Generated site using jekyll
@@ -22,4 +23,15 @@
 	* large and small blasts
 	* invul saves
 	* full re-rolls and any modifiers, combinations of the two
-
+* Updated columns to improve tab navigation
+* Some test cases complete
+	* D<W
+	* D=W
+	* D>W
+	* Invul < Save
+	* Invul = Save
+	* Invul > Save
+	* Actual Save > 6
+	* Actual Save < 6
+	Believe they are all functioning correctly
+	
