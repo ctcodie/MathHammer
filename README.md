@@ -7,7 +7,6 @@
 	* Options for things like Feel no pain?
 	* Account for melta weapons? eg damage 2d6 pick the highest? How does this affect the average? 
 * SEO
-* Contact me email address to add
 
 
 # Done
@@ -34,3 +33,4 @@
 * Fixed issue with unsaved wounds. Didn't realise was returning successful saves instead of fails...
 * Fixed issues with multiwound vs multidamage. Should be calculating models removed correctly now.
 * Added Google Analytics
+* Created new email account and added to footer for contact
