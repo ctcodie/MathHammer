@@ -2,6 +2,7 @@
 
 # ToDo
 * Add validation on inputs
+* Ability to input multiple weapons
 * Bonus features, not priority
 	* Account for special re-rolls, e.g reroll ones.
 	* Options for things like Feel no pain?

@@ -371,7 +371,7 @@ $(document).ready(function() {
 		// Put outputs into page
 
 		//$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
-		$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " unsaved wounds, dealing "+weaponDamage+" damage each. " +kills + " models removed, Morale Casualties: " + moraleCasualties);
+		$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " unsaved wounds on average, dealing "+weaponDamage+" damage each. " +kills + " models removed, Morale Casualties: " + moraleCasualties);
 
 		// Functions for rolls
 
