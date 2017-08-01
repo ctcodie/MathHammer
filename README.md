@@ -1,5 +1,7 @@
 # MathHammer
 
+mathhammer8th.surge.sh
+
 # ToDo
 * Add validation on inputs
 * Ability to input multiple weapons
