@@ -139,7 +139,7 @@ $(document).ready(function() {
 			numberOfShots = 2;
 		}
 		if (largeBlast === true || flamer === true){
-			numberOfShots = 4;
+			numberOfShots = 3.5;
 		} 
 
 		// Sets auto hits for flamer
@@ -154,7 +154,7 @@ $(document).ready(function() {
 		if (weaponDamageD3 === true){
 			weaponDamage = 2;
 		} else if (weaponDamageD6 === true){
-			weaponDamage = 4;
+			weaponDamage = 3.5;
 		}
 		
 

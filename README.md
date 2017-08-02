@@ -7,14 +7,17 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 # Bugs
 * Reroll ones to wound is causing more wounds than straight reroll
 
+# Fixed
+* Updated average damage and shots on d6 to be more accurate, using 3.5.
+
 # ToDo
 * Add validation on inputs
 * Ability to input multiple weapons
 * Bonus features, not priority
 	* Options for things like Feel no pain? Cover?
 	* Account for melta weapons? eg damage 2d6 pick the highest? How does this affect the average? 
-		1d6 average is 3.5, so a roll of 4.
-		2d6 average is 4.47, which is still a roll of 4?
+		1d6 average is 3.5
+		2d6 average is 4.47
 	* AP modifying / mortal wound abilities like eldar bladestorm and sniper rifles
 * Some weapons get multiple d6 damage or shots
 * SEO
