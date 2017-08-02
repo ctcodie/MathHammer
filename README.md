@@ -5,7 +5,8 @@ mathhammer8th.surge.sh
 A single page static site MathHammer calculator. MathHammer is a method of measuring a units' effectiveness by using averages, for players of the Warhammer 40k tabletop game.
 
 # Bugs
-* Reroll ones to wound is causing more wounds than straight reroll
+* Reroll ones to wound is causing more wounds than straight reroll (unable to replicate error)
+* Reroll ones and full reroll combos are not producing expected results. If statement enclosing scenarios only accounts for combinations of each type (eg. fulls reroll hit and/or wound, or reroll one hit and/or wound, not a mix). Will need a considerable refactor.
 
 # Fixed
 * Updated average damage and shots on d6 to be more accurate, using 3.5.
