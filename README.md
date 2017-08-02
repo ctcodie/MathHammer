@@ -4,6 +4,10 @@ mathhammer8th.surge.sh
 
 A single page static site MathHammer calculator. MathHammer is a method of measuring a units' effectiveness by using averages, for players of the Warhammer 40k tabletop game.
 
+# Bugs
+* Reroll ones to wound is causing more wounds than straight reroll
+* Some weapons get 2d6 shots or 2d6 damage
+
 # ToDo
 * Add validation on inputs
 * Ability to input multiple weapons
@@ -12,6 +16,8 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 	* Account for melta weapons? eg damage 2d6 pick the highest? How does this affect the average? 
 		1d6 average is 3.5, so a roll of 4.
 		2d6 average is 4.47, which is still a roll of 4?
+	* AP modifying / mortal wound abilities like eldar bladestorm and sniper rifles
+	* Reroll and reroll ones for armour saves
 * SEO
 
 
