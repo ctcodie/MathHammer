@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$( "#buttonGo" ).click(function() {
-  doTheMath();
+  doTheMaths();
 });
 
 	function doTheMaths(){
