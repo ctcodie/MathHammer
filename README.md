@@ -6,8 +6,7 @@ mathhammer8th.surge.sh
 * Add validation on inputs
 * Ability to input multiple weapons
 * Bonus features, not priority
-	* Account for special re-rolls, e.g reroll ones.
-	* Options for things like Feel no pain?
+	* Options for things like Feel no pain? Cover?
 	* Account for melta weapons? eg damage 2d6 pick the highest? How does this affect the average? 
 * SEO
 
@@ -37,3 +36,4 @@ mathhammer8th.surge.sh
 * Fixed issues with multiwound vs multidamage. Should be calculating models removed correctly now.
 * Added Google Analytics
 * Created new email account and added to footer for contact
+* Reroll ones to hit and to wound functionality added
