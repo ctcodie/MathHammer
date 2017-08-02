@@ -38,6 +38,8 @@ $(document).ready(function() {
 		var weaponSkill = 0;
 		var leadership = 0;
 		var moraleCasualties = 0;
+		var rerollHitOne = false;
+		var rerollWoundOne = false;
 		//potentially for validation. positive integer inc 0
 		//var positiveRegExp = /^\+?(0|[1-9]\d*)$/;
 
@@ -96,13 +98,24 @@ $(document).ready(function() {
 			}else{
 				rerollHit = false;
 		};
-
+		if ($('#rerollHitOne').is(":checked"))
+			{
+  				rerollHitOne = true;
+			}else{
+				rerollHitOne = false;
+		};
+		if ($('#rerollWoundOne').is(":checked"))
+			{
+  				rerollWoundOne = true;
+			}else{
+				rerollWoundOne = false;
+		};
 		// Perform initial calculations
 
 		if (assault === true){
 			ballisticSkill = weaponSkill;
 			numberOfShots = numberOfAttacks;
-		}
+		};
 
 		// Calculate actual to save roll including ap
 		// Decide whether to use armour save or invul save, whichever is better
@@ -166,208 +179,380 @@ $(document).ready(function() {
 		// Order of calls and variable changes is important, rerolls happen then modifiers as per
 		// 40k 8th Ed rules. 24/07/17
 		// No rerolls or modifiers
-		if (rerollHit==false && rerollWound==false && hitMod==0 && woundMod==0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("No reroll/mod causes " + kills + " models removed and " + moraleCasualties + " morale");
-		// Reroll hit, no modifiers
-		
-		}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod==0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			numberOfShots -= hits;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit " + kills + " models removed");
-		
-		// Reroll wound, no modifiers
-		
-		}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod==0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll wound " + kills + " models removed");
-		
-		// No Rerolls, to hit modifier
-		
-		}else if(rerollHit==false && rerollWound==false && hitMod!=0 && woundMod==0){
-			//minus hit mod because it's a dice roll. so minus 1 to hit penalty goes from 3+ to 4+. +1 to hit
-			//goes 3+ to 2+...counter intuitive but correct. 
-			ballisticSkill -= hitMod;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			console.log(hits +' hits');
-			wounds = rollToWound(woundRoll, hits);
-			console.log(wounds +' wounds');
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Mod to hit " + kills + " models removed");
-		
-		// No Reroll, to wound modifier
-		
-		}else if(rerollHit==false && rerollWound==false && hitMod==0 && woundMod!=0){
-			woundRoll -= woundMod;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			console.log(hits +' hits');
-			wounds = rollToWound(woundRoll, hits);
-			console.log(wounds +' wounds');
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Mod to hit " + kills + " models removed");
-		
-		// Reroll to hit and wound, no modifier
-		
-		}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod==0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			numberOfShots -= hits;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit and wound " + kills + " models removed");
-		
-		// Reroll to wound with hit modifier
-		
-		}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod==0){
-			ballisticSkill -= hitMod;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll wound and hit mod " + kills + " models removed");
-		
-		// Reroll to wound with wound modifier
-		
-		}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod!=0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			woundRoll -= woundMod
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll wound and wound mod " + kills + " models removed");
-		
-		// Reroll wound with to hit and wound modifiers
-		
-		}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod!=0){
-			ballisticSkill -= hitMod;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			woundRoll -= woundMod;
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll wound and wound mod " + kills + " models removed");
-		
-		// Reroll hit with hit modifier
-		
-		}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod==0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			numberOfShots -= hits;
-			ballisticSkill -= hitMod;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit and hit mod " + kills + " models removed");
-		
-		// Reroll hit with wound modifier
-		
-		}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod!=0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			numberOfShots -= hits;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			woundRoll -= woundMod;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit wound mod " + kills + " models removed");
-		
-		// Reroll hit with to wound and to hit modifiers
-		
-		}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod!=0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			numberOfShots -= hits;
-			ballisticSkill -= hitMod;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			woundRoll -= woundMod;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit and both mod " + kills + " models removed");
-		
-		// Reroll to hit and wound with hit modifier
-		
-		}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod==0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			numberOfShots -= hits;
-			ballisticSkill -= hitMod;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit and wound with hit mod " + kills + " models removed");
-		
-		// Reroll to hit and wound with wound modifier
-		
-		}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod!=0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			numberOfShots -= hits;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			woundRoll -= woundMod;
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit and wound with wound mod " + kills + " models removed");
+console.log(rerollWoundOne);
+		if (rerollWoundOne == false && rerollHitOne == false){
+			if (rerollHit==false && rerollWound==false && hitMod==0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("No reroll/mod causes " + kills + " models removed and " + moraleCasualties + " morale");
+			// Reroll hit, no modifiers
+			
+			}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots -= hits;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit " + kills + " models removed");
+			
+			// Reroll wound, no modifiers
+			
+			}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound " + kills + " models removed");
+			
+			// No Rerolls, to hit modifier
+			
+			}else if(rerollHit==false && rerollWound==false && hitMod!=0 && woundMod==0){
+				//minus hit mod because it's a dice roll. so minus 1 to hit penalty goes from 3+ to 4+. +1 to hit
+				//goes 3+ to 2+...counter intuitive but correct. 
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				console.log(hits +' hits');
+				wounds = rollToWound(woundRoll, hits);
+				console.log(wounds +' wounds');
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Mod to hit " + kills + " models removed");
+			
+			// No Reroll, to wound modifier
+			
+			}else if(rerollHit==false && rerollWound==false && hitMod==0 && woundMod!=0){
+				woundRoll -= woundMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				console.log(hits +' hits');
+				wounds = rollToWound(woundRoll, hits);
+				console.log(wounds +' wounds');
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Mod to hit " + kills + " models removed");
+			
+			// Reroll to hit and wound, no modifier
+			
+			}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots -= hits;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound " + kills + " models removed");
+			
+			// Reroll to wound with hit modifier
+			
+			}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod==0){
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound and hit mod " + kills + " models removed");
+			
+			// Reroll to wound with wound modifier
+			
+			}else if(rerollHit==false && rerollWound==true && hitMod==0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound and wound mod " + kills + " models removed");
+			
+			// Reroll wound with to hit and wound modifiers
+			
+			}else if(rerollHit==false && rerollWound==true && hitMod!=0 && woundMod!=0){
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod;
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound and wound mod " + kills + " models removed");
+			
+			// Reroll hit with hit modifier
+			
+			}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots -= hits;
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and hit mod " + kills + " models removed");
+			
+			// Reroll hit with wound modifier
+			
+			}else if(rerollHit==true && rerollWound==false && hitMod==0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots -= hits;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				woundRoll -= woundMod;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit wound mod " + kills + " models removed");
+			
+			// Reroll hit with to wound and to hit modifiers
+			
+			}else if(rerollHit==true && rerollWound==false && hitMod!=0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots -= hits;
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				woundRoll -= woundMod;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and both mod " + kills + " models removed");
+			
+			// Reroll to hit and wound with hit modifier
+			
+			}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots -= hits;
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound with hit mod " + kills + " models removed");
+			
+			// Reroll to hit and wound with wound modifier
+			
+			}else if(rerollHit==true && rerollWound==true && hitMod==0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots -= hits;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod;
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound with wound mod " + kills + " models removed");
 
-		// Reroll to hit and wound with hit and wound modifiers
+			// Reroll to hit and wound with hit and wound modifiers
+			
+			}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				ballisticSkill -= hitMod;
+				numberOfShots -= hits;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod;
+				hits -= wounds;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound with both mod " + kills + " models removed");
+			}else{
+				console.log("Oh No! Something broke in the ifs");
+			}
 		
-		}else if(rerollHit==true && rerollWound==true && hitMod!=0 && woundMod!=0){
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			ballisticSkill -= hitMod;
-			numberOfShots -= hits;
-			hits = rollToHit(ballisticSkill, numberOfShots);
-			wounds = rollToWound(woundRoll, hits);
-			woundRoll -= woundMod;
-			hits -= wounds;
-			wounds = rollToWound(woundRoll, hits);
-			unsavedWounds = rollToSave(wounds, actualSave, noSave);
-			kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
-			moraleCasualties = calculateMoraleDamage(leadership, kills);
-			console.log("Reroll hit and wound with both mod " + kills + " models removed");
-		}else{
-			console.log("Oh No! Something broke in the ifs");
+		} else {
+		// Reroll ones section
+			
+			// Reroll hit, no modifiers
+			
+			if(rerollHitOne==true && rerollWoundOne==false && hitMod==0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots /= 6;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit " + kills + " models removed");
+			
+			// Reroll wound, no modifiers
+			
+			}else if(rerollHitOne==false && rerollWoundOne==true && hitMod==0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound " + kills + " models removed");
+			
+			// Reroll to hit and wound, no modifier
+			
+			}else if(rerollHitOne==true && rerollWoundOne==true && hitMod==0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots /= 6;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound " + kills + " models removed");
+			
+			// Reroll to wound with hit modifier
+			
+			}else if(rerollHitOne==false && rerollWoundOne==true && hitMod!=0 && woundMod==0){
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound and hit mod " + kills + " models removed");
+			
+			// Reroll to wound with wound modifier
+			
+			}else if(rerollHitOne==false && rerollWoundOne==true && hitMod==0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound and wound mod " + kills + " models removed");
+			
+			// Reroll wound with to hit and wound modifiers
+			
+			}else if(rerollHitOne==false && rerollWoundOne==true && hitMod!=0 && woundMod!=0){
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod;
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll wound and wound mod " + kills + " models removed");
+			
+			// Reroll hit with hit modifier
+			
+			}else if(rerollHitOne==true && rerollWoundOne==false && hitMod!=0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots /= 6;
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and hit mod " + kills + " models removed");
+			
+			// Reroll hit with wound modifier
+			
+			}else if(rerollHitOne==true && rerollWoundOne==false && hitMod==0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots /= 6;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				woundRoll -= woundMod;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit wound mod " + kills + " models removed");
+			
+			// Reroll hit with to wound and to hit modifiers
+			
+			}else if(rerollHitOne==true && rerollWoundOne==false && hitMod!=0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots /= 6;
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				woundRoll -= woundMod;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and both mod " + kills + " models removed");
+			
+			// Reroll to hit and wound with hit modifier
+			
+			}else if(rerollHitOne==true && rerollWoundOne==true && hitMod!=0 && woundMod==0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots /= 6;
+				ballisticSkill -= hitMod;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound with hit mod " + kills + " models removed");
+			
+			// Reroll to hit and wound with wound modifier
+			
+			}else if(rerollHitOne==true && rerollWoundOne==true && hitMod==0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				numberOfShots /= 6;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod;
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound with wound mod " + kills + " models removed");
+
+			// Reroll to hit and wound with hit and wound modifiers
+			
+			}else if(rerollHitOne==true && rerollWoundOne==true && hitMod!=0 && woundMod!=0){
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				ballisticSkill -= hitMod;
+				numberOfShots /= 6;
+				hits = rollToHit(ballisticSkill, numberOfShots);
+				wounds = rollToWound(woundRoll, hits);
+				woundRoll -= woundMod;
+				hits /= 6;
+				wounds = rollToWound(woundRoll, hits);
+				unsavedWounds = rollToSave(wounds, actualSave, noSave);
+				kills = calculateKills(unsavedWounds, weaponDamage, targetWounds);
+				moraleCasualties = calculateMoraleDamage(leadership, kills);
+				console.log("Reroll hit and wound with both mod " + kills + " models removed");
+			}else{
+				console.log("Oh No! Something broke in the ifs");
+			}
 		}
-
 		// Put outputs into page
 
 		//$('#resultsYo').html(Math.round(unsavedWounds * 100) / 100 + " wounds caused, " + kills + " models removed, Morale Casualties: " + moraleCasualties);
