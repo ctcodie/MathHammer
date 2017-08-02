@@ -3,7 +3,7 @@ $(document).ready(function() {
   doTheMath();
 });
 
-	function doTheMath(){
+	function doTheMaths(){
 		
 		// Declare variables
 
@@ -178,8 +178,9 @@ $(document).ready(function() {
 		// This could probably be DRY-er...
 		// Order of calls and variable changes is important, rerolls happen then modifiers as per
 		// 40k 8th Ed rules. 24/07/17
+
 		// No rerolls or modifiers
-console.log(rerollWoundOne);
+
 		if (rerollWoundOne == false && rerollHitOne == false){
 			if (rerollHit==false && rerollWound==false && hitMod==0 && woundMod==0){
 				hits = rollToHit(ballisticSkill, numberOfShots);

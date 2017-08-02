@@ -1,208 +1,208 @@
 ---
 layout: default
 ---
-<div class="container">	
+<div class="container"> 
 <div class ="row">
-		<div class="column">
-			<p>Welcome to my 8th Edition 40k MathHammer calculator!</p>
-			<p>Just fill out the boxes below with the stats of the unit shooting, and the unit they're targeting, then click calculate to show the average wounds inflicted (including morale casualties)! </p>
-			<p>The calculator uses averages to give you a rough idea, but your mileage on the table top may vary.</p>
-			<p>Unfortunately you'll have to enter all the stats, but it's okay because you've got the relevant books(right?).</p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="column">
-			<h1>Firing Model</h1>
-			<div class="row">
-				<div class="column">
-					<label for="ballisticSkill">Firers Ballistic/Weapon Skill:</label>
-				</div>
-				<div class="column">
-					<input id="ballisticSkill" class="numberField" type="number" placeholder="Bs/ws" step="1" min="0" max="30" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="weaponStrength">Weapon Strength:</label>
-				</div>
-				<div class="column">
-					<input id="weaponStrength" class="numberField" type="number" placeholder="S" step="1" min="0" max="30" require>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="weaponAP">Weapon AP:</label>
-				</div>
-				<div class="column">
-					<input id="weaponAP" class="numberField" type="number" placeholder="AP" step="1" min="0" max="30" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="weaponDamage">Weapon Damage:</label>
-				</div>
-				<div class="column">
-					<input id="weaponDamage" class="numberField" type="number" placeholder="D" step="1" min="0" max="30">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="numberOfShots">Number of Shots/Attacks:</label>
-				</div>
-				<div class="column">
-					<input id="numberOfShots" class="numberField" type="number" placeholder="Shots" step="1" min="0" max="300" required>
-				</div>
-			</div>
-		</div>
-		<div class="column">
-			<h1>Target Model</h1>
-			<div class="row">
-				<div class="column">
-					<label for="toughness">Toughness:</label>
-				</div>
-				<div class="column">
-					<input id="toughness" class="numberField" type="number" placeholder="T" step="1" min="0" max="30" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="armourSave">Armour Save:</label>
-				</div>
-				<div class="column">
-					<input id="armourSave" class="numberField" type="number" placeholder="Save" step="1" min="0" max="7" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="invulSave">Invulnerable Save:</label>
-				</div>
-				<div class="column">
-					<input id="invulSave" class="numberField" type="number" placeholder="Invul" step="1" min="0" max="7">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="numberOfWounds">Number of Wounds (per model):</label>
-				</div>
-				<div class="column">
-					<input id="numberOfWounds" class="numberField" type="number" placeholder="W" step="1" min="1" max="30" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="leadership">Leadership:</label>
-				</div>
-				<div class="column">
-					<input id="leadership" class="numberField" type="number" placeholder="Ld" step="1" min="0" max="30" required>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="column">
-			<h1>Special Cases</h1>
-			<div class="row">
-				<div class="column">
-					<label for="flamerYN">Flamer</label>
-				</div>
-				<div class="column">
-					<input id="flamerYN" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="d6ShotsYN">d6 Shots</label>
-				</div>
-				<div class="column">
-					<input id="d6ShotsYN" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="d3ShotsYN">d3 Shots</label>
-				</div>
-				<div class="column">
-					<input id="d3ShotsYN" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="d6DamageYN">d6 Damage</label>
-				</div>
-				<div class="column">
-					<input id="d6DamageYN" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="d3DamageYN">d3 Damage</label>
-				</div>
-				<div class="column">
-					<input id="d3DamageYN" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="rerollHit">Re-roll To Hit</label>
-				</div>
-				<div class="column">
-					<input id="rerollHit" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="rerollWound">Re-roll To Wound</label>
-				</div>
-				<div class="column">
-					<input id="rerollWound" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="rerollHitOne">Re-roll Ones To Hit</label>
-				</div>
-				<div class="column">
-					<input id="rerollHitOne" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="rerollWoundOne">Re-roll Ones To Wound</label>
-				</div>
-				<div class="column">
-					<input id="rerollWoundOne" type="checkbox">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="toHitMod">To Hit Modifier</label>
-				</div>
-				<div class="column">
-					<input id="toHitMod" class="numberField" type="number" placeholder="+/-" step="1" min="-10" max="10">
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<label for="toWoundMod">To Wound Modifier:</label>
-				</div>
-				<div class="column">
-					<input id="toWoundMod" class="numberField" type="number" placeholder="+/-" step="1" min="-10" max="10">
-				</div>
-			</div>
-		</div>
-		<div class="column">
-		</div>
-	</div>
-	<div class="row">
-		<div class="column centrediv">
-			<input type="button" value="Calculate" id="buttonGo">
-		</div>
-	</div>
-	<div class="row">
-		<div class="column centrediv">
-			<h3 id="resultsYo"></h3>
-		</div>
-	</div>
+    <div class="column">
+      <p>Welcome to my 8th Edition 40k MathHammer calculator!</p>
+      <p>Just fill out the boxes below with the stats of the unit shooting, and the unit they're targeting, then click calculate to show the average wounds inflicted (including morale casualties)! </p>
+      <p>The calculator uses averages to give you a rough idea, but your mileage on the table top may vary.</p>
+      <p>Unfortunately you'll have to enter all the stats, but it's okay because you've got the relevant books(right?).</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <h1>Firing Model</h1>
+      <div class="row">
+        <div class="column">
+          <label for="ballisticSkill">Firers Ballistic/Weapon Skill:</label>
+        </div>
+        <div class="column">
+          <input id="ballisticSkill" class="numberField" type="number" placeholder="Bs/ws" step="1" min="0" max="30" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="weaponStrength">Weapon Strength:</label>
+        </div>
+        <div class="column">
+          <input id="weaponStrength" class="numberField" type="number" placeholder="S" step="1" min="0" max="30" require>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="weaponAP">Weapon AP:</label>
+        </div>
+        <div class="column">
+          <input id="weaponAP" class="numberField" type="number" placeholder="AP" step="1" min="0" max="30" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="weaponDamage">Weapon Damage:</label>
+        </div>
+        <div class="column">
+          <input id="weaponDamage" class="numberField" type="number" placeholder="D" step="1" min="0" max="30">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="numberOfShots">Number of Shots/Attacks:</label>
+        </div>
+        <div class="column">
+          <input id="numberOfShots" class="numberField" type="number" placeholder="Shots" step="1" min="0" max="300" required>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <h1>Target Model</h1>
+      <div class="row">
+        <div class="column">
+          <label for="toughness">Toughness:</label>
+        </div>
+        <div class="column">
+          <input id="toughness" class="numberField" type="number" placeholder="T" step="1" min="0" max="30" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="armourSave">Armour Save:</label>
+        </div>
+        <div class="column">
+          <input id="armourSave" class="numberField" type="number" placeholder="Save" step="1" min="0" max="7" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="invulSave">Invulnerable Save:</label>
+        </div>
+        <div class="column">
+          <input id="invulSave" class="numberField" type="number" placeholder="Invul" step="1" min="0" max="7">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="numberOfWounds">Number of Wounds (per model):</label>
+        </div>
+        <div class="column">
+          <input id="numberOfWounds" class="numberField" type="number" placeholder="W" step="1" min="1" max="30" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="leadership">Leadership:</label>
+        </div>
+        <div class="column">
+          <input id="leadership" class="numberField" type="number" placeholder="Ld" step="1" min="0" max="30" required>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <h1>Special Cases</h1>
+      <div class="row">
+        <div class="column">
+          <label for="flamerYN">Flamer</label>
+        </div>
+        <div class="column">
+          <input id="flamerYN" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="d6ShotsYN">d6 Shots</label>
+        </div>
+        <div class="column">
+          <input id="d6ShotsYN" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="d3ShotsYN">d3 Shots</label>
+        </div>
+        <div class="column">
+          <input id="d3ShotsYN" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="d6DamageYN">d6 Damage</label>
+        </div>
+        <div class="column">
+          <input id="d6DamageYN" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="d3DamageYN">d3 Damage</label>
+        </div>
+        <div class="column">
+          <input id="d3DamageYN" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="rerollHit">Re-roll To Hit</label>
+        </div>
+        <div class="column">
+          <input id="rerollHit" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="rerollWound">Re-roll To Wound</label>
+        </div>
+        <div class="column">
+          <input id="rerollWound" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="rerollHitOne">Re-roll Ones To Hit</label>
+        </div>
+        <div class="column">
+          <input id="rerollHitOne" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="rerollWoundOne">Re-roll Ones To Wound</label>
+        </div>
+        <div class="column">
+          <input id="rerollWoundOne" type="checkbox">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="toHitMod">To Hit Modifier</label>
+        </div>
+        <div class="column">
+          <input id="toHitMod" class="numberField" type="number" placeholder="+/-" step="1" min="-10" max="10">
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="toWoundMod">To Wound Modifier:</label>
+        </div>
+        <div class="column">
+          <input id="toWoundMod" class="numberField" type="number" placeholder="+/-" step="1" min="-10" max="10">
+        </div>
+      </div>
+    </div>
+    <div class="column">
+    </div>
+  </div>
+  <div class="row">
+    <div class="column centrediv">
+      <input type="button" value="Calculate" id="buttonGo">
+    </div>
+  </div>
+  <div class="row">
+    <div class="column centrediv">
+      <h3 id="resultsYo"></h3>
+    </div>
+  </div>
 </div>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
