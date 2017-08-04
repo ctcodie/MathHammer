@@ -123,7 +123,7 @@ $(document).ready(function() {
 		armourPiercing = Math.abs(armourPiercing)
 		actualSave = armourSave + armourPiercing;
 
-		if (actualSave + armourPiercing >=7){
+		if (actualSave >=7 && invulSave === 0){
 			noSave = true;
 		} else if ( invulSave != 0 && actualSave > invulSave){
 			actualSave = invulSave;
@@ -178,6 +178,7 @@ $(document).ready(function() {
 		// This could probably be DRY-er...
 		// Order of calls and variable changes is important, rerolls happen then modifiers as per
 		// 40k 8th Ed rules. 24/07/17
+		// This doesn't work for mixed rerolls. Needs some serious work. Like back to the drawing board
 
 		// No rerolls or modifiers
 

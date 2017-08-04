@@ -8,8 +8,10 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 * Reroll ones to wound is causing more wounds than straight reroll (unable to replicate error)
 * Reroll ones and full reroll combos are not producing expected results. If statement enclosing scenarios only accounts for combinations of each type (eg. fulls reroll hit and/or wound, or reroll one hit and/or wound, not a mix). Will need a considerable refactor.
 
+
 # Fixed
 * Updated average damage and shots on d6 to be more accurate, using 3.5.
+* Armour saves with high AP weapons was functioning incorrectly. 
 
 # ToDo
 * Add validation on inputs
@@ -22,7 +24,11 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 	* AP modifying / mortal wound abilities like eldar bladestorm and sniper rifles
 * Some weapons get multiple d6 damage or shots
 * SEO
-
+* Requested features
+	* Allow users to see damage dealt from the attacking model, regardless of models removed. So 0.06 Unsaved Wounds, dealing 2 damage each, would result in 0.12 damage against multi-wound targets. Used for whole unit shooting. Need to add multi weapon support, for now shot values can be multiplied.
+	* Compare different units and weapon configurations. Will require a lot of entry fields since can't use stats storage. Maybe have a "history" table? Highlight row with best results?
+	* Damage per point is an important metric in tournament list building.
+	* Show users a breakdown of damage & DPP against multiple toughness levels, and show them overall average Damage & DPP stats. For example. How good is a strength 4 weapon against toughness range 3 through 7?
 
 # Done
 * Generated site using jekyll
