@@ -5,13 +5,13 @@ mathhammer8th.surge.sh
 A single page static site MathHammer calculator. MathHammer is a method of measuring a units' effectiveness by using averages, for players of the Warhammer 40k tabletop game.
 
 # Bugs
-* Reroll ones to wound is causing more wounds than straight reroll (unable to replicate error)
-* Reroll ones and full reroll combos are not producing expected results. If statement enclosing scenarios only accounts for combinations of each type (eg. fulls reroll hit and/or wound, or reroll one hit and/or wound, not a mix). Will need a considerable refactor.
-
+<tumble weed>
 
 # Fixed
 * Updated average damage and shots on d6 to be more accurate, using 3.5.
 * Armour saves with high AP weapons was functioning incorrectly. 
+* Issue with reroll ones to hit/wound paired with reroll wound/hit not working.
+
 
 # ToDo
 * Add validation on inputs
@@ -19,6 +19,8 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 * Bonus features, not priority
 	* Options for things like Feel no pain? Cover?
 	* AP modifying / mortal wound abilities like eldar bladestorm and sniper rifles
+	* Quantum shielding
+	* reroll/reroll ones armour saves
 * Some weapons get multiple d6 damage or shots
 * SEO
 * Requested features
@@ -54,3 +56,5 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 * Created new email account and added to footer for contact
 * Reroll ones to hit and to wound functionality added
 * 2d6 pick highest damage weapons added
+* Huge re-factor of JavaScript. Makes way more sense now...and it fixed reroll one/all combo issue
+
