@@ -40,6 +40,7 @@ $(document).ready(function() {
 		var moraleCasualties = 0;
 		var rerollHitOne = false;
 		var rerollWoundOne = false;
+		var x2d6HighDam = false;
 		//potentially for validation. positive integer inc 0
 		//var positiveRegExp = /^\+?(0|[1-9]\d*)$/;
 
@@ -83,6 +84,12 @@ $(document).ready(function() {
   				weaponDamageD6 = true;
 			}else{
 				weaponDamageD6 = false;
+		};
+		if ($('#2d6HighDam').is(":checked"))
+			{
+  				x2d6HighDam = true;
+			}else{
+				x2d6HighDam = false;
 		};
 		hitMod = $('#toHitMod').val()*1; 
 		woundMod = $('#toWoundMod').val()*1;
@@ -155,6 +162,8 @@ $(document).ready(function() {
 			weaponDamage = 2;
 		} else if (weaponDamageD6 === true){
 			weaponDamage = 3.5;
+		} else if (x2d6HighDam === true) {
+			weaponDamage = 4.47;
 		}
 		
 

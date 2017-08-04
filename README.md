@@ -18,9 +18,6 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 * Ability to input multiple weapons
 * Bonus features, not priority
 	* Options for things like Feel no pain? Cover?
-	* Account for melta weapons? eg damage 2d6 pick the highest? How does this affect the average? 
-		1d6 average is 3.5
-		2d6 average is 4.47
 	* AP modifying / mortal wound abilities like eldar bladestorm and sniper rifles
 * Some weapons get multiple d6 damage or shots
 * SEO
@@ -56,3 +53,4 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 * Added Google Analytics
 * Created new email account and added to footer for contact
 * Reroll ones to hit and to wound functionality added
+* 2d6 pick highest damage weapons added
