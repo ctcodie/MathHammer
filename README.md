@@ -5,7 +5,7 @@ mathhammer8th.surge.sh
 A single page static site MathHammer calculator. MathHammer is a method of measuring a units' effectiveness by using averages, for players of the Warhammer 40k tabletop game.
 
 # Bugs
-<tumble weed>
+Empty!? 
 
 # Fixed
 * Updated average damage and shots on d6 to be more accurate, using 3.5.
