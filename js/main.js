@@ -15,7 +15,7 @@ $(document).ready(function() {
 		var weaponDamageD3 = false;
 		var weaponDamageD6 = false;
 		var targetWounds = 1;
-		var	armourSave = 0;
+		var	armourSave = 7;
 		var	invulSave = 0;
 		var	armourPiercing = 3;
 		var	actualSave = 0;
@@ -205,7 +205,7 @@ $(document).ready(function() {
 			ballisticSkill -= hitMod;
 			hits = rollToHit(ballisticSkill,numberOfShots);
 		};
-		console.log(hits + " hits");
+		console.log(hits + " hits rolled");
 
 	// Roll wounds
 
