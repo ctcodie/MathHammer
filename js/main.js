@@ -210,10 +210,16 @@ $(document).ready(function() {
 	// Roll wounds
 
 		if (rerollWoundOne === true){
+			console.log("hits: "+hits);
 			wounds = rollToWound(woundRoll,hits);
+			console.log("First wound roll: "+wounds);
+			console.log("Unmodified wound roll "+woundRoll);
 			woundRoll -= woundMod;
+			console.log("Modified wound roll: "+woundRoll);
 			hits /= 6;
+			console.log("hits for reroll: "+hits);
 			wounds = rollToWound(woundRoll,hits);
+			console.log("Second wound roll: "+wounds);
 		} else if (rerollWound === true){
 			wounds = rollToWound(woundRoll,hits);
 			woundRoll -= woundMod;
