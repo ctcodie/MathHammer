@@ -6,6 +6,7 @@ A single page static site MathHammer calculator. MathHammer is a method of measu
 
 # Bugs
 * Rerolling ones to hit and wound, with a to wound mod, yields less wounds than either option on its own...rather odd. 
+	* Is there a discrepancy in unsaved wounds when using a reroll hit/wound one and a wound/hit modifier?
 * There's some weirdness when armour save isn't entered or is 7. So basically if a unit has no save.
 
 # Fixed
